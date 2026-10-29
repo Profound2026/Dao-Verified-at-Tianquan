@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>证道天泉 · 东江源高山自涌泉</title>
+<style>
+  :root{
+    --ink:#1f3a42;        /* 黛青 */
+    --ink-deep:#12262c;
+    --paper:#f6f2e9;      /* 宣纸 */
+    --paper-warm:#efe8d8;
+    --cinnabar:#b23a2e;   /* 朱砂 */
+    --gold:#b8963e;
+    --mist:#8fa8ad;
+    --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+    --kai:"Kaiti SC","STKaiti","KaiTi",var(--serif);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--serif);
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.9;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--cinnabar);color:#fff}
+
+  /* ---------- 导航 ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 5vw;
+    background:rgba(246,242,233,.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(31,58,66,.12);
+    transition:box-shadow .3s;
+  }
+  nav.scrolled{box-shadow:0 4px 24px rgba(18,38,44,.10)}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+  .seal{
+    width:40px;height:40px;background:var(--cinnabar);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--kai);font-size:20px;border-radius:6px;
+    box-shadow:2px 2px 0 rgba(178,58,46,.3);
+    transform:rotate(-3deg);
+  }
+  .brand-name{font-size:20px;font-weight:700;letter-spacing:.35em;font-family:var(--kai)}
+  .brand-sub{font-size:11px;color:var(--mist);letter-spacing:.2em;margin-top:-4px}
+  .nav-links{display:flex;gap:34px;align-items:center}
+  .nav-links a{
+    color:var(--ink);text-decoration:none;font-size:15px;letter-spacing:.15em;
+    position:relative;padding:4px 0;
+  }
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:0;width:0;height:2px;
+    background:var(--cinnabar);transition:width .3s;
+  }
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{
+    background:var(--ink);color:#fff!important;padding:8px 20px;border-radius:999px;
+    font-size:14px!important;transition:background .3s;
+  }
+  .nav-cta:hover{background:var(--cinnabar)}
+  .nav-cta::after{display:none}
+  @media(max-width:820px){.nav-links a:not(.nav-cta){display:none}}
+
+  /* ---------- Hero ---------- */
+  header{
+    min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(180deg,#eef0ea 0%,var(--paper) 60%);
+    overflow:hidden;text-align:center;padding:120px 5vw 80px;
+  }
+  .mountains{position:absolute;bottom:0;left:0;width:100%;pointer-events:none}
+  .hero-inner{position:relative;z-index:2;max-width:860px}
+  .hero-eyebrow{
+    font-size:14px;letter-spacing:.6em;color:var(--cinnabar);margin-bottom:26px;
+    animation:fadeUp 1s .2s both;
+  }
+  h1.hero-title{
+    font-family:var(--kai);font-size:clamp(56px,10vw,110px);font-weight:700;
+    letter-spacing:.18em;line-height:1.25;color:var(--ink-deep);
+    animation:fadeUp 1s .4s both;
+  }
+  .hero-verse{
+    margin-top:30px;font-family:var(--kai);font-size:clamp(16px,2.4vw,21px);
+    color:var(--ink);opacity:.85;letter-spacing:.12em;
+    animation:fadeUp 1s .6s both;
+  }
+  .hero-line{
+    width:64px;height:3px;background:var(--cinnabar);margin:34px auto;
+    animation:fadeUp 1s .7s both;
+  }
+  .hero-desc{
+    max-width:620px;margin:0 auto;font-size:16px;color:#41585f;
+    animation:fadeUp 1s .8s both;
+  }
+  .hero-actions{margin-top:44px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;animation:fadeUp 1s 1s both}
+  .btn{
+    display:inline-block;padding:14px 38px;border-radius:999px;text-decoration:none;
+    font-size:15px;letter-spacing:.2em;transition:all .3s;cursor:pointer;border:none;font-family:var(--serif);
+  }
+  .btn-primary{background:var(--ink-deep);color:#fff}
+  .btn-primary:hover{background:var(--cinnabar);transform:translateY(-2px);box-shadow:0 8px 24px rgba(178,58,46,.28)}
+  .btn-ghost{border:1px solid var(--ink);color:var(--ink);background:transparent}
+  .btn-ghost:hover{background:var(--ink);color:#fff}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ---------- 通用 section ---------- */
+  section{padding:110px 5vw;position:relative}
+  .section-head{text-align:center;max-width:760px;margin:0 auto 70px}
+  .section-tag{
+    display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.5em;
+    color:var(--cinnabar);margin-bottom:18px;
+  }
+  .section-tag::before,.section-tag::after{content:"";width:36px;height:1px;background:var(--cinnabar);opacity:.5}
+  h2{font-family:var(--kai);font-size:clamp(32px,5vw,48px);letter-spacing:.14em;color:var(--ink-deep)}
+  .section-sub{margin-top:16px;color:#4d646b;font-size:16px}
+
+  /* ---------- 水源地 ---------- */
+  #source{background:var(--paper)}
+  .source-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;max-width:1180px;margin:0 auto}
+  .source-card{
+    background:#fffdf7;border:1px solid rgba(31,58,66,.1);border-radius:18px;
+    padding:44px 34px;position:relative;overflow:hidden;
+    transition:transform .35s,box-shadow .35s;
+  }
+  .source-card:hover{transform:translateY(-8px);box-shadow:0 20px 44px rgba(18,38,44,.12)}
+  .source-card::before{
+    content:attr(data-num);position:absolute;top:14px;right:22px;
+    font-family:var(--kai);font-size:74px;color:rgba(31,58,66,.06);line-height:1;
+  }
+  .source-icon{font-size:40px;margin-bottom:20px}
+  .source-card h3{font-family:var(--kai);font-size:24px;letter-spacing:.1em;margin-bottom:6px;color:var(--ink-deep)}
+  .source-card .card-sub{font-size:13px;letter-spacing:.25em;color:var(--cinnabar);margin-bottom:18px}
+  .source-card p{font-size:15px;color:#41585f}
+  .source-card .fact{
+    margin-top:20px;padding:14px 18px;background:var(--paper-warm);border-left:3px solid var(--cinnabar);
+    border-radius:0 10px 10px 0;font-size:14px;color:var(--ink-deep);
+  }
+  .source-banner{
+    max-width:1180px;margin:56px auto 0;border-radius:18px;overflow:hidden;position:relative;
+    background:linear-gradient(135deg,#17333b,#2c525d);color:#eef0ea;
+    padding:56px 6%;display:flex;flex-wrap:wrap;gap:36px;align-items:center;justify-content:space-between;
+  }
+  .source-banner .big{font-family:var(--kai);font-size:clamp(24px,3.4vw,34px);letter-spacing:.12em;line-height:1.7}
+  .source-banner .big em{font-style:normal;color:#e8c87a}
+  .banner-stats{display:flex;gap:44px;flex-wrap:wrap}
+  .stat b{display:block;font-size:38px;font-family:var(--kai);color:#e8c87a}
+  .stat span{font-size:13px;letter-spacing:.2em;opacity:.85}
+
+  /* ---------- 品牌故事 ---------- */
+  #story{background:linear-gradient(180deg,var(--paper) 0%,#efe9da 50%,var(--paper) 100%)}
+  .story-wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+  @media(max-width:920px){.story-wrap{grid-template-columns:1fr}}
+  .story-text h3{font-family:var(--kai);font-size:30px;letter-spacing:.1em;color:var(--ink-deep);margin-bottom:24px}
+  .story-text p{margin-bottom:18px;font-size:16px;color:#3c545c;text-align:justify}
+  .story-text p b{color:var(--cinnabar)}
+  .story-quote{
+    margin:28px 0;padding:22px 26px;border-left:4px solid var(--gold);
+    background:rgba(255,253,247,.7);border-radius:0 14px 14px 0;
+    font-family:var(--kai);font-size:17px;color:var(--ink-deep);
+  }
+  .siju{
+    background:var(--ink-deep);border-radius:20px;padding:52px 40px;color:#f2ead8;
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+    box-shadow:0 24px 60px rgba(18,38,44,.25);position:relative;overflow:hidden;
+  }
+  .siju::after{
+    content:"";position:absolute;inset:12px;border:1px solid rgba(232,200,122,.28);border-radius:14px;pointer-events:none;
+  }
+  .siju-title{font-family:var(--kai);font-size:22px;letter-spacing:.5em;color:#e8c87a;margin-bottom:26px}
+  .siju-lines{display:flex;flex-direction:row-reverse;gap:clamp(18px,4vw,40px)}
+  .siju-line{
+    writing-mode:vertical-rl;font-family:var(--kai);
+    font-size:clamp(22px,3vw,30px);letter-spacing:.3em;line-height:1.6;
+    padding:6px 2px;
+  }
+  .siju-line:nth-child(odd){color:#e8c87a}
+  .siju-note{margin-top:28px;font-size:13px;letter-spacing:.3em;opacity:.7}
+
+  /* ---------- 客服 ---------- */
+  #chat{background:var(--paper)}
+  .chat-wrap{
+    max-width:1080px;margin:0 auto;display:grid;grid-template-columns:340px 1fr;gap:0;
+    border-radius:22px;overflow:hidden;box-shadow:0 24px 64px rgba(18,38,44,.14);
+    border:1px solid rgba(31,58,66,.1);background:#fffdf7;
+  }
+  @media(max-width:880px){.chat-wrap{grid-template-columns:1fr}.chat-side{display:none}}
+  .chat-side{
+    background:linear-gradient(160deg,#17333b,#2c525d);color:#eef0ea;padding:48px 36px;
+  }
+  .chat-side .avatar{
+    width:76px;height:76px;border-radius:50%;background:var(--cinnabar);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:var(--kai);font-size:34px;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);margin-bottom:22px;border:3px solid rgba(255,255,255,.25);
+  }
+  .chat-side h3{font-family:var(--kai);font-size:26px;letter-spacing:.15em}
+  .chat-side .role{font-size:13px;letter-spacing:.3em;color:#e8c87a;margin:6px 0 22px}
+  .chat-side p{font-size:14px;opacity:.88;line-height:2}
+  .chat-side ul{list-style:none;margin-top:20px;font-size:13.5px;opacity:.9}
+  .chat-side li{padding:8px 0;border-bottom:1px dashed rgba(238,240,234,.2)}
+  .chat-side li::before{content:"· ";color:#e8c87a}
+  .chat-main{display:flex;flex-direction:column;height:600px}
+  .chat-log{flex:1;overflow-y:auto;padding:28px;display:flex;flex-direction:column;gap:16px;background:
+    radial-gradient(circle at 80% 10%,rgba(143,168,173,.08),transparent 55%),#fffdf7}
+  .msg{max-width:78%;padding:13px 18px;border-radius:16px;font-size:15px;line-height:1.8;animation:msgIn .35s both;white-space:pre-line}
+  @keyframes msgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .msg.bot{align-self:flex-start;background:var(--paper-warm);border:1px solid rgba(31,58,66,.1);border-bottom-left-radius:4px}
+  .msg.user{align-self:flex-end;background:var(--ink-deep);color:#fff;border-bottom-right-radius:4px}
+  .msg.bot b{color:var(--cinnabar)}
+  .quick{display:flex;gap:10px;flex-wrap:wrap;padding:0 28px 14px;background:#fffdf7}
+  .quick button{
+    border:1px solid rgba(31,58,66,.25);background:#fff;border-radius:999px;padding:7px 16px;
+    font-size:13px;color:var(--ink);cursor:pointer;transition:all .25s;font-family:var(--serif);
+  }
+  .quick button:hover{background:var(--ink-deep);color:#fff;border-color:var(--ink-deep)}
+  .chat-input{display:flex;gap:12px;padding:16px 20px;border-top:1px solid rgba(31,58,66,.12);background:#fff}
+  .chat-input input{
+    flex:1;border:1px solid rgba(31,58,66,.25);border-radius:999px;padding:12px 20px;font-size:15px;
+    font-family:var(--serif);outline:none;background:var(--paper);
+  }
+  .chat-input input:focus{border-color:var(--cinnabar)}
+  .chat-input button{
+    background:var(--cinnabar);color:#fff;border:none;border-radius:999px;padding:0 28px;
+    font-size:15px;letter-spacing:.1em;cursor:pointer;transition:background .25s;font-family:var(--serif);
+  }
+  .chat-input button:hover{background:var(--ink-deep)}
+  .typing{display:inline-flex;gap:5px;padding:6px 4px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--mist);animation:tp 1s infinite}
+  .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+  @keyframes tp{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+
+  /* ---------- 页脚 ---------- */
+  footer{background:var(--ink-deep);color:#c9d4d0;padding:70px 5vw 34px}
+  .foot-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:44px}
+  footer h4{font-family:var(--kai);font-size:19px;letter-spacing:.15em;color:#e8c87a;margin-bottom:18px}
+  footer p,footer li{font-size:14px;line-height:2.1;opacity:.85}
+  footer ul{list-style:none}
+  .foot-brand{font-family:var(--kai);font-size:30px;letter-spacing:.25em;color:#f2ead8}
+  .foot-line{max-width:1180px;margin:44px auto 0;border-top:1px solid rgba(238,240,234,.14);padding-top:24px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12.5px;opacity:.6}
+
+  /* 回到顶部 */
+  #toTop{
+    position:fixed;right:26px;bottom:26px;width:48px;height:48px;border-radius:50%;
+    background:var(--ink-deep);color:#fff;border:none;font-size:20px;cursor:pointer;
+    opacity:0;pointer-events:none;transition:all .3s;z-index:90;box-shadow:0 8px 20px rgba(0,0,0,.2);
+  }
+  #toTop.show{opacity:1;pointer-events:auto}
+  #toTop:hover{background:var(--cinnabar)}
+
+  /* 浮动客服按钮（移动端） */
+  #floatChat{
+    position:fixed;right:26px;bottom:86px;z-index:90;
+    background:var(--cinnabar);color:#fff;border:none;border-radius:999px;padding:12px 22px;
+    font-family:var(--serif);font-size:14px;letter-spacing:.1em;cursor:pointer;
+    box-shadow:0 10px 26px rgba(178,58,46,.35);transition:transform .3s;
+  }
+  #floatChat:hover{transform:scale(1.05)}
+</style>
+</head>
+<body>
+
+<!-- ========== 导航 ========== -->
+<nav id="nav">
+  <a class="brand" href="#top">
+    <span class="seal">证</span>
+    <span>
+      <span class="brand-name">证道天泉</span><br>
+      <span class="brand-sub">ZHENGDAO TIANQUAN</span>
+    </span>
+  </a>
+  <div class="nav-links">
+    <a href="#source">水源地</a>
+    <a href="#story">品牌故事</a>
+    <a href="#chat">问小证</a>
+    <a href="#chat" class="nav-cta">咨询客服</a>
+  </div>
+</nav>
+
+<!-- ========== Hero ========== -->
+<header id="top">
+  <svg class="mountains" viewBox="0 0 1440 340" preserveAspectRatio="none" style="height:38vh;min-height:220px">
+    <path d="M0,260 L180,140 L320,220 L520,80 L700,200 L900,110 L1100,230 L1280,150 L1440,240 L1440,340 L0,340 Z"
+      fill="#2c525d" opacity=".16"/>
+    <path d="M0,300 L240,190 L420,260 L640,150 L860,250 L1080,180 L1300,270 L1440,210 L1440,340 L0,340 Z"
+      fill="#1f3a42" opacity=".22"/>
+    <path d="M0,340 L200,260 L460,310 L720,230 L980,300 L1220,250 L1440,300 L1440,340 L0,340 Z"
+      fill="#12262c" opacity=".30"/>
+  </svg>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">东江源头 · 高山自涌 · 心学之泉</div>
+    <h1 class="hero-title">证道天泉</h1>
+    <div class="hero-verse">无善无恶心之体 &nbsp;·&nbsp; 有源有活水自来</div>
+    <div class="hero-line"></div>
+    <p class="hero-desc">
+      取自东江发源地——江西寻乌海拔 1500 余米高山无人区的天然自涌泉。
+      五百年前，阳明先生在此间山水间悟道证道；五百年后，我们以一泉清水，致敬那场「天泉证道」。
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#source">探寻水源</a>
+      <a class="btn btn-ghost" href="#story">品读品牌故事</a>
+    </div>
+  </div>
+</header>
+
+<!-- ========== 第一部分：水源地 ========== -->
+<section id="source">
+  <div class="section-head">
+    <div class="section-tag">第一部分</div>
+    <h2>水源地 · 东江源</h2>
+    <p class="section-sub">一江清水供香江，源头活水出寻乌</p>
+  </div>
+
+  <div class="source-grid">
+    <div class="source-card" data-num="壹">
+      <div class="source-icon">🏞️</div>
+      <h3>东江源</h3>
+      <div class="card-sub">供港水源之源头</div>
+      <p>
+        东江，珠江水系三大支流之一，更是<b>供应香港饮用水的生命之源</b>。
+        自 1965 年东深供水工程通水以来，东江水跨越山川，滋养着粤港澳大湾区数千万人家。
+        而这一江清水的第一滴，正来自江西寻乌的群山深处。
+      </p>
+      <div class="fact">东江源区森林覆盖率超 95%，被誉为「东江母亲河的第一口清泉」。</div>
+    </div>
+
+    <div class="source-card" data-num="贰">
+      <div class="source-icon">⛩️</div>
+      <h3>寻乌</h3>
+      <div class="card-sub">阳明故道 · 人文圣地</div>
+      <p>
+        寻乌，地处赣闽粤三省交界，东江、韩江、赣江三江发源地之一。
+        五百年前，王阳明巡抚南赣，在此<b>招抚收复叶芳</b>，平定一方、教化一方，
+        龙川、和平诸地自此归心。寻乌的山山水水，至今浸润着心学的气息。
+      </p>
+      <div class="fact">正德年间，阳明先生于此留下「破山中贼易，破心中贼难」的千古之叹。</div>
+    </div>
+
+    <div class="source-card" data-num="叁">
+      <div class="source-icon">💧</div>
+      <h3>项山泉</h3>
+      <div class="card-sub">制造商 · 高山无人区自涌泉</div>
+      <p>
+        证道天泉由<b>项山泉</b>出品，水源取自海拔 <b>1500 余米</b>的高山无人区。
+        泉水历经岩层深层过滤，自地下岩缝<b>自然涌出</b>，全程无人为干预、无工业污染，
+        富含多种天然矿物元素，清冽甘甜。
+      </p>
+      <div class="fact">自涌泉：承压地下水天然出露，不抽取、不增压，涌出即鲜活。</div>
+    </div>
+  </div>
+
+  <div class="source-banner">
+    <div class="big">
+      问渠那得清如许？<br><em>为有源头活水来。</em>
+    </div>
+    <div class="banner-stats">
+      <div class="stat"><b>1500+</b><span>米 · 海拔</span></div>
+      <div class="stat"><b>95%</b><span>森林覆盖率</span></div>
+      <div class="stat"><b>0</b><span>工业污染</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 第二部分：品牌故事 ========== -->
+<section id="story">
+  <div class="section-head">
+    <div class="section-tag">第二部分</div>
+    <h2>品牌故事 · 天泉证道</h2>
+    <p class="section-sub">商标之名，取自阳明先生晚年「天泉证道」之典故</p>
+  </div>
+
+  <div class="story-wrap">
+    <div class="story-text">
+      <h3>一座桥，四句教，五百年</h3>
+      <p>
+        明嘉靖六年（1527 年），王阳明即将启程赴广西平乱。启程前夜，
+        在绍兴府邸的<b>天泉桥</b>上，他与门下两大高足——钱德洪与王畿，
+        就「四句教」展开了一场影响中国思想史五百年的著名论辩，史称<b>「天泉证道」</b>。
+      </p>
+      <p>
+        那一夜，先生一锤定音，将心学纲领归于四句——这是阳明一生学问的终极印证，
+        也是中国哲学史上最为璀璨的公案之一。
+      </p>
+      <div class="story-quote">
+        先生曰：「二君之见，正好相资为用，不可各执一边。」<br>
+        —— 天泉桥上，兼容并蓄，方为圆满。
+      </div>
+      <p>
+        <b>「证道天泉」因此得名</b>：证者，印证、践行也；道者，良知大道也；
+        天泉者，天泉桥畔那一夜的思想清泉也。
+        我们相信，好水如好道——<b>源正、性清、利物而不争</b>。
+        以一杯源头活水，养一身浩然之气；以一场天泉证道，证一颗光明之心。
+      </p>
+      <p>
+        知行合一，是先生留下的功课，也是这瓶水的操守：
+        水源说得清、水质看得见、承诺做得到。
+      </p>
+    </div>
+
+    <div class="siju">
+      <div class="siju-title">四 句 教</div>
+      <div class="siju-lines">
+        <div class="siju-line">无善无恶心之体</div>
+        <div class="siju-line">有善有恶意之动</div>
+        <div class="siju-line">知善知恶是良知</div>
+        <div class="siju-line">为善去恶是格物</div>
+      </div>
+      <div class="siju-note">—— 王阳明 · 天泉证道 ——</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 第三部分：小证客服 ========== -->
+<section id="chat">
+  <div class="section-head">
+    <div class="section-tag">第三部分</div>
+    <h2>问小证 · 知心客服</h2>
+    <p class="section-sub">健康用水 · 品牌故事 · 公益读书分享会，有问必答</p>
+  </div>
+
+  <div class="chat-wrap">
+    <aside class="chat-side">
+      <div class="avatar">证</div>
+      <h3>小证</h3>
+      <div class="role">证道天泉 · 知心客服</div>
+      <p>「知善知恶是良知。」<br>我是小证，证道天泉的 AI 客服。关于这瓶水的一切，问我就对了。</p>
+      <ul>
+        <li>健康饮水知识</li>
+        <li>东江源与品牌故事</li>
+        <li>公益读书分享会</li>
+        <li>水源地与水质问答</li>
+      </ul>
+    </aside>
+
+    <div class="chat-main">
+      <div class="chat-log" id="chatLog"></div>
+      <div class="quick" id="quickBtns"></div>
+      <div class="chat-input">
+        <input id="userInput" type="text" placeholder="请输入您的问题，例如：每天喝多少水合适？" autocomplete="off">
+        <button id="sendBtn">发送</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 页脚 ========== -->
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">证道天泉</div>
+      <p style="margin-top:14px">东江源 · 高山自涌泉<br>以泉证道，以水润心。</p>
+    </div>
+    <div>
+      <h4>水源地</h4>
+      <ul>
+        <li>东江源 · 供港水源源头</li>
+        <li>江西寻乌 · 阳明故道</li>
+        <li>海拔 1500+ 米高山无人区</li>
+        <li>制造商：项山泉</li>
+      </ul>
+    </div>
+    <div>
+      <h4>公益读书分享会</h4>
+      <ul>
+        <li>共读经典：《传习录》等</li>
+        <li>线上线下同步开展</li>
+        <li>详情可向客服「小证」咨询</li>
+      </ul>
+    </div>
+    <div>
+      <h4>联系我们</h4>
+      <ul>
+        <li>客服：页面右侧「问小证」</li>
+        <li>合作洽谈：欢迎垂询</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-line">
+    <span>© 2026 证道天泉 · 项山泉出品</span>
+    <span>无善无恶心之体 · 有善有恶意之动 · 知善知恶是良知 · 为善去恶是格物</span>
+  </div>
+</footer>
+
+<button id="floatChat" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">💬 问小证</button>
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/* ================= 导航与回到顶部 ================= */
+const nav = document.getElementById('nav');
+const toTop = document.getElementById('toTop');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+  toTop.classList.toggle('show', window.scrollY > 600);
+});
+
+/* ================= 小证客服 ================= */
+const chatLog = document.getElementById('chatLog');
+const userInput = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
+const quickBtns = document.getElementById('quickBtns');
+
+/* 知识库：关键词 -> 回复 */
+const KB = [
+  {
+    keys: ['水源','东江','东江源','寻乌','哪里','产地','项山泉','自涌泉','海拔','无人区','供港','香港'],
+    reply: '【关于水源地】\n证道天泉的水源地在东江发源地——江西寻乌，由「项山泉」制造出品。\n\n· 东江是供应香港饮用水的水源之源头，一江清水滋养粤港澳大湾区；\n· 寻乌地处赣闽粤三省交界，正是当年王阳明巡抚南赣、收复叶芳的地方；\n· 泉水取自海拔 1500 余米的高山无人区，是岩层深处自然涌出的自涌泉，全程无人为干预。\n\n「问渠那得清如许，为有源头活水来」——源正，水才正。'
+  },
+  {
+    keys: ['品牌','故事','天泉','天泉证道','典故','王阳明','阳明','名字','商标','由来','四句教','心学','传习录'],
+    reply: '【关于品牌故事】\n「证道天泉」之名，取自王阳明晚年「天泉证道」的典故。\n\n明嘉靖六年（1527 年），阳明先生赴广西前夜，在绍兴天泉桥上与弟子钱德洪、王畿论道，一锤定音留下心学纲领「四句教」：\n\n无善无恶心之体，\n有善有恶意之动，\n知善知恶是良知，\n为善去恶是格物。\n\n我们以「证道天泉」为名，是相信好水如好道：源正、性清、利物而不争。以一杯源头活水，证一颗光明之心。'
+  },
+  {
+    keys: ['健康','喝水','饮水','用水','多少水','好处','怎么喝','温水','矿泉水','矿物质','补水','口渴'],
+    reply: '【健康用水小知识】\n· 每天饮水量：成人建议 1500–1700ml（约 7–8 杯），少量多次，不要等口渴才喝；\n· 晨起一杯温水：约 200ml，35–40°C 为宜，唤醒肠胃；\n· 运动后：小口慢饮，切忌一次大量猛灌；\n· 优选天然水：高山自涌泉经岩层自然过滤，含多种天然矿物元素，口感清冽甘甜；\n· 少喝含糖饮料，白开水与天然泉水是最好的日常饮品。\n\n水是百药之王，喝好水，是最便宜的养生。'
+  },
+  {
+    keys: ['公益','读书','读书会','分享会','分享','活动','报名','线下','共读'],
+    reply: '【公益读书分享会】\n证道天泉定期举办公益读书分享会，以经典为引、以践行相证。\n\n· 共读书目：《传习录》等中华经典；\n· 形式：线上共读 + 线下分享，围泉论道、以文会友；\n· 费用：公益免费，欢迎每一位爱书之人；\n· 如何参加：留下您的联系方式，或关注后续活动公告，小证会第一时间通知您。\n\n一时语在：「知之真切笃实处即是行，行之明觉精察处即是知。」读书亦当知行合一。'
+  },
+  {
+    keys: ['价格','多少钱','买','购买','订购','下单','哪里买','代理','合作','加盟'],
+    reply: '【订购与合作】\n感谢您对证道天泉的认可！\n\n· 个人订购：请留下您的联系方式与需求数量，小证会安排专人与您对接；\n· 团购/企业定制：支持企业用水定制与联名合作；\n· 渠道代理：如果您认同「以泉证道」的理念，欢迎洽谈区域代理合作。\n\n您可以直接告诉我您的需求类型（个人/团购/代理），小证为您登记。'
+  },
+  {
+    keys: ['水质','安全','检测','矿物质','偏硅酸','微量元素','ph','弱碱','口感','甜'],
+    reply: '【关于水质】\n证道天泉取自海拔 1500 余米高山无人区自涌泉：\n\n· 水源：承压地下水天然涌出，不经抽取增压，涌出即鲜活；\n· 过滤：历经深层岩层漫长矿化过滤，天然纯净；\n· 口感：清冽回甘，软硬适中，泡茶尤佳；\n· 保障：出厂批次检测，符合国家饮用天然泉水标准。\n\n一句话：山是活的，水才是活的。'
+  },
+  {
+    keys: ['叶芳','收复','历史','南赣','巡抚','平定'],
+    reply: '【寻乌与阳明先生】\n明正德年间，王阳明巡抚南赣，在赣闽粤交界的群山之间剿抚并用。盘踞一方的叶芳，经先生招抚归顺，从此改邪归正、随军效力。\n\n先生有言：「破山中贼易，破心中贼难。」——收复的不只是山头，更是人心。\n\n五百年后，证道天泉取这片山水之泉，正是向这段「以文化人」的历史致敬。'
+  },
+  {
+    keys: ['你好','您好','hi','hello','在吗','在不在'],
+    reply: '您好呀，我是小证 😊\n「知善知恶是良知」——关于证道天泉的水源地、品牌故事、健康饮水知识和公益读书分享会，您想先聊哪一个？'
+  },
+  {
+    keys: ['谢谢','感谢','多谢','赞','好'],
+    reply: '不客气 🙏\n「为善去恶是格物」，能帮到您，小证也在修行。\n还有什么想了解的，随时问我。'
+  }
+];
+
+const FALLBACK = '小证还在修习中，这个问题暂时没有现成的答案 😅\n\n您可以问我这些方向：\n· 水源地与东江源（回复「水源」）\n· 品牌故事与天泉证道（回复「品牌」）\n· 健康饮水知识（回复「健康」）\n· 公益读书分享会（回复「读书会」）\n· 订购与合作（回复「订购」）';
+
+const QUICK = ['东江源头在哪里？','天泉证道是什么典故？','每天喝多少水合适？','公益读书会怎么参加？','怎么订购？'];
+
+function addMsg(text, who){
+  const div = document.createElement('div');
+  div.className = 'msg ' + who;
+  div.textContent = text;
+  chatLog.appendChild(div);
+  chatLog.scrollTop = chatLog.scrollHeight;
+  return div;
+}
+
+function botReply(question){
+  const q = question.toLowerCase();
+  let best = null, bestScore = 0;
+  for (const item of KB){
+    let score = 0;
+    for (const k of item.keys){
+      if (q.includes(k.toLowerCase())) score += k.length; // 长关键词权重更高
+    }
+    if (score > bestScore){ bestScore = score; best = item; }
+  }
+  return best ? best.reply : FALLBACK;
+}
+
+function send(text){
+  const msg = (text !== undefined ? text : userInput.value).trim();
+  if (!msg) return;
+  addMsg(msg, 'user');
+  userInput.value = '';
+  const typing = document.createElement('div');
+  typing.className = 'msg bot';
+  typing.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>';
+  chatLog.appendChild(typing);
+  chatLog.scrollTop = chatLog.scrollHeight;
+  setTimeout(() => {
+    typing.remove();
+    addMsg(botReply(msg), 'bot');
+  }, 700 + Math.random() * 500);
+}
+
+sendBtn.addEventListener('click', () => send());
+userInput.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+
+QUICK.forEach(t => {
+  const b = document.createElement('button');
+  b.textContent = t;
+  b.onclick = () => send(t);
+  quickBtns.appendChild(b);
+});
+
+/* 开场白 */
+setTimeout(() => {
+  addMsg('您好，我是小证，证道天泉的知心客服 💧\n\n「无善无恶心之体，有源有活水自来。」\n\n我可以为您解答：\n· 🏞️ 水源地：东江源·寻乌·高山自涌泉\n· 📖 品牌故事：天泉证道与王阳明\n· 💧 健康用水知识\n· 📚 公益读书分享会\n\n点击下方快捷问题，或直接输入您的问题～', 'bot');
+}, 400);
+</script>
+</body>
+</html>
