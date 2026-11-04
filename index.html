@@ -54,6 +54,8 @@
   }
   .brand-name{font-size:20px;font-weight:700;letter-spacing:.35em;color:var(--cream)}
   .brand-sub{font-size:11px;color:var(--gold-dim);letter-spacing:.2em;margin-top:-4px}
+  /* 注册商标 ® 标记 */
+  .tm{font-size:.45em;vertical-align:super;color:var(--gold-bright);font-weight:400;letter-spacing:0;margin-left:.12em}
   .nav-links{display:flex;gap:34px;align-items:center}
   .nav-links a{
     color:var(--gold);text-decoration:none;font-size:15px;letter-spacing:.15em;
@@ -82,6 +84,26 @@
     overflow:hidden;text-align:center;padding:120px 5vw 80px;
   }
   .mountains{position:absolute;bottom:0;left:0;width:100%;pointer-events:none}
+  /* 水面焦散光斑 */
+  .caustics::before{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:
+      radial-gradient(ellipse 32% 18% at 25% 30%,rgba(216,184,110,.10),transparent 70%),
+      radial-gradient(ellipse 26% 15% at 68% 62%,rgba(120,168,176,.09),transparent 70%),
+      radial-gradient(ellipse 22% 13% at 82% 22%,rgba(216,184,110,.07),transparent 70%);
+    animation:caustics-drift 26s ease-in-out infinite alternate;
+  }
+  @keyframes caustics-drift{
+    0%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(-2%,3%) scale(1.06)}
+    100%{transform:translate(2%,-2%) scale(1.02)}
+  }
+  /* 交互涟漪画布 */
+  .water-fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+  /* 底部波浪线 */
+  .wave-wrap{position:absolute;left:0;bottom:0;width:100%;overflow:hidden;z-index:2;pointer-events:none}
+  .wave-svg{display:block;width:calc(100% + 200px);height:28px;animation:wave-x 9s linear infinite}
+  @keyframes wave-x{to{transform:translateX(-200px)}}
   .hero-inner{position:relative;z-index:2;max-width:860px}
   .hero-eyebrow{
     font-size:14px;letter-spacing:.6em;color:var(--gold-bright);margin-bottom:26px;
@@ -89,9 +111,17 @@
   }
   h1.hero-title{
     font-family:var(--serif);font-size:clamp(56px,10vw,110px);font-weight:700;
-    letter-spacing:.18em;line-height:1.25;color:var(--cream);
-    text-shadow:0 0 60px rgba(200,168,96,.25);
+    letter-spacing:.18em;line-height:1.25;
+    /* 紫金色渐变字：米金 → 鎏金 → 紫金 */
+    background:linear-gradient(120deg,#f0e2c0 0%,#d8b86e 38%,#b393d3 72%,#8f6bb8 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 26px rgba(179,147,211,.22));
     animation:fadeUp 1s .4s both;
+  }
+  /* 书法家题字主标题（透明底 PNG，横排金色） */
+  .hero-title-img img{
+    width:min(82vw,780px);height:auto;display:block;margin:0 auto;
+    filter:drop-shadow(0 6px 30px rgba(216,184,110,.35));
   }
   .hero-verse{
     margin-top:30px;font-size:clamp(16px,2.4vw,21px);
@@ -141,7 +171,8 @@
     content:attr(data-num);position:absolute;top:14px;right:22px;
     font-size:74px;color:rgba(200,168,96,.07);line-height:1;
   }
-  .source-icon{font-size:40px;margin-bottom:20px}
+  .source-icon{width:46px;height:46px;margin-bottom:20px;color:var(--gold-bright)}
+  .source-icon svg{width:100%;height:100%;display:block}
   .source-card h3{font-size:24px;letter-spacing:.1em;margin-bottom:6px;color:var(--cream);font-weight:700}
   .source-card .card-sub{font-size:13px;letter-spacing:.25em;color:var(--gold-bright);margin-bottom:18px}
   .source-card p{font-size:15px;color:var(--gold)}
@@ -160,6 +191,76 @@
   .banner-stats{display:flex;gap:44px;flex-wrap:wrap}
   .stat b{display:block;font-size:38px;color:var(--gold-bright);font-weight:700}
   .stat span{font-size:13px;letter-spacing:.2em;color:var(--gold-dim)}
+
+  /* ---------- 实拍照片墙 ---------- */
+  .photo-strip{
+    max-width:1180px;margin:56px auto 0;display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;
+  }
+  .photo-strip figure{
+    margin:0;border-radius:var(--radius);overflow:hidden;
+    border:1px solid var(--line-soft);background:var(--bg-card);position:relative;
+  }
+  .photo-strip img{
+    width:100%;height:230px;object-fit:cover;display:block;
+    transition:transform .6s ease;filter:saturate(.92);
+  }
+  .photo-strip figure:hover img{transform:scale(1.05)}
+  .photo-strip figcaption{
+    padding:12px 16px;font-size:13px;color:var(--gold-dim);letter-spacing:.1em;
+    border-top:1px solid var(--line-soft);
+  }
+  .photo-strip figcaption b{color:var(--gold);font-weight:500;margin-right:8px}
+  .photo-note{max-width:1180px;margin:12px auto 0;font-size:12px;color:var(--gold-dim);opacity:.65;text-align:right}
+
+  /* ---------- 阳明故道 ---------- */
+  #legend{background:var(--bg)}
+  .legend-wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.08fr .92fr;gap:64px;align-items:center}
+  @media(max-width:920px){.legend-wrap{grid-template-columns:1fr}}
+  .legend-img{
+    border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);
+    box-shadow:0 24px 60px rgba(0,0,0,.5);position:relative;
+  }
+  .legend-img img{width:100%;display:block;transition:transform .8s ease}
+  .legend-img:hover img{transform:scale(1.03)}
+  .legend-img .img-cap{
+    position:absolute;left:0;right:0;bottom:0;padding:14px 18px;
+    background:linear-gradient(transparent,rgba(7,12,14,.88));
+    font-size:13px;color:var(--gold-dim);letter-spacing:.1em;
+  }
+  .legend-text h3{font-size:30px;letter-spacing:.1em;color:var(--cream);margin-bottom:24px;font-weight:700}
+  .legend-text p{margin-bottom:18px;font-size:16px;color:var(--gold);text-align:justify}
+  .legend-text p b{color:var(--gold-bright)}
+  .legend-quote{
+    margin:24px 0;padding:20px 24px;border-left:2px solid var(--gold-bright);
+    background:rgba(200,168,96,.06);border-radius:0 var(--radius) var(--radius) 0;
+    font-size:17px;color:var(--cream);line-height:2;
+  }
+
+  /* ---------- 寻乌调查 ---------- */
+  #investigation{background:linear-gradient(180deg,var(--bg) 0%,#0c1317 50%,var(--bg) 100%)}
+  .diaocha-wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:.92fr 1.08fr;gap:64px;align-items:center}
+  @media(max-width:920px){.diaocha-wrap{grid-template-columns:1fr}.diaocha-img{order:-1}}
+  .diaocha-text h3{font-size:30px;letter-spacing:.1em;color:var(--cream);margin-bottom:24px;font-weight:700}
+  .diaocha-text p{margin-bottom:18px;font-size:16px;color:var(--gold);text-align:justify}
+  .diaocha-text p b{color:var(--gold-bright)}
+  .diaocha-quote{
+    margin:24px 0;padding:22px 26px;border-left:2px solid var(--gold-bright);
+    background:rgba(200,168,96,.06);border-radius:0 var(--radius) var(--radius) 0;
+    font-size:clamp(18px,2.6vw,22px);color:var(--cream);line-height:1.9;letter-spacing:.06em;
+  }
+  .diaocha-quote small{display:block;margin-top:8px;font-size:13px;color:var(--gold-dim);letter-spacing:.15em}
+  .diaocha-img{
+    border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);
+    box-shadow:0 24px 60px rgba(0,0,0,.5);position:relative;
+  }
+  .diaocha-img img{width:100%;display:block;transition:transform .8s ease}
+  .diaocha-img:hover img{transform:scale(1.03)}
+  .diaocha-img .img-cap{
+    position:absolute;left:0;right:0;bottom:0;padding:14px 18px;
+    background:linear-gradient(transparent,rgba(7,12,14,.88));
+    font-size:13px;color:var(--gold-dim);letter-spacing:.1em;
+  }
 
   /* ---------- 品牌故事 ---------- */
   #story{background:linear-gradient(180deg,var(--bg) 0%,#0c1317 50%,var(--bg) 100%)}
@@ -191,6 +292,32 @@
   }
   .siju-line:nth-child(odd){color:var(--gold-bright)}
   .siju-note{margin-top:28px;font-size:13px;letter-spacing:.3em;color:var(--gold-dim)}
+
+  /* ---------- 商品展示 ---------- */
+  #product{background:linear-gradient(180deg,var(--bg) 0%,#0c1317 50%,var(--bg) 100%)}
+  .product-wrap{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:center}
+  @media(max-width:920px){.product-wrap{grid-template-columns:1fr}}
+  .product-photo{
+    position:relative;border-radius:var(--radius);overflow:hidden;
+    border:1px solid var(--line);box-shadow:0 24px 64px rgba(0,0,0,.55);
+    background:#f4f6f7;
+  }
+  .product-photo img{width:100%;display:block}
+  .product-photo::after{
+    content:"";position:absolute;inset:12px;border:1px solid rgba(216,184,110,.35);
+    border-radius:2px;pointer-events:none;
+  }
+  .product-info h3{font-size:clamp(26px,3.6vw,34px);letter-spacing:.1em;color:var(--cream);margin-bottom:8px;font-weight:700}
+  .product-info .p-sub{font-size:13px;letter-spacing:.3em;color:var(--gold-bright);margin-bottom:24px}
+  .product-info p{font-size:15.5px;color:var(--gold);margin-bottom:16px;text-align:justify}
+  .spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin:28px 0}
+  .spec{
+    border:1px solid var(--line-soft);border-radius:var(--radius);
+    padding:14px 16px;background:var(--bg-card);
+  }
+  .spec b{display:block;color:var(--gold-bright);font-size:19px;font-weight:700;margin-bottom:2px}
+  .spec span{font-size:12px;color:var(--gold-dim);letter-spacing:.12em}
+  .product-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
 
   /* ---------- 客服 ---------- */
   #chat{background:var(--bg)}
@@ -284,31 +411,47 @@
   <a class="brand" href="#top">
     <img class="seal-logo" src="logo_gold.png" alt="证道天泉">
     <span>
-      <span class="brand-name">证道天泉</span><br>
-      <span class="brand-sub">ZHENGDAO TIANQUAN</span>
+      <span class="brand-name">证道天泉<sup class="tm">®</sup></span><br>
+      <span class="brand-sub">DAO VERIFIED AT TIANQUAN</span>
     </span>
   </a>
   <div class="nav-links">
     <a href="#source">水源地</a>
+    <a href="#legend">阳明故道</a>
+    <a href="#investigation">寻乌调查</a>
     <a href="#story">品牌故事</a>
+    <a href="#product">产品</a>
     <a href="#chat">问小证</a>
     <a href="#chat" class="nav-cta">咨询客服</a>
   </div>
 </nav>
 
 <!-- ========== Hero ========== -->
-<header id="top">
+<header id="top" class="caustics">
+  <canvas class="water-fx" id="waterFx" aria-hidden="true"></canvas>
   <svg class="mountains" viewBox="0 0 1440 340" preserveAspectRatio="none" style="height:38vh;min-height:220px">
-    <path d="M0,260 L180,140 L320,220 L520,80 L700,200 L900,110 L1100,230 L1280,150 L1440,240 L1440,340 L0,340 Z"
-      fill="#c8a860" opacity=".07"/>
-    <path d="M0,300 L240,190 L420,260 L640,150 L860,250 L1080,180 L1300,270 L1440,210 L1440,340 L0,340 Z"
-      fill="#1c2b33" opacity=".5"/>
-    <path d="M0,340 L200,260 L460,310 L720,230 L980,300 L1220,250 L1440,300 L1440,340 L0,340 Z"
-      fill="#0d1519" opacity=".85"/>
+    <defs>
+      <linearGradient id="mistBand" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#c8a860" stop-opacity="0"/>
+        <stop offset=".5" stop-color="#c8a860" stop-opacity=".05"/>
+        <stop offset="1" stop-color="#c8a860" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <!-- 远山：薄金雾霭 -->
+    <path d="M0,245 C110,205 190,168 310,196 C430,224 510,128 650,158 C790,188 870,104 1010,142 C1150,180 1250,132 1440,172 L1440,340 L0,340 Z"
+      fill="#c8a860" opacity=".10"/>
+    <!-- 山间雾带 -->
+    <rect x="0" y="205" width="1440" height="42" fill="url(#mistBand)"/>
+    <!-- 中山：青黛起伏 -->
+    <path d="M0,292 C90,254 170,232 290,258 C410,284 490,206 630,232 C770,258 850,184 990,214 C1130,244 1230,202 1440,238 L1440,340 L0,340 Z"
+      fill="#22333d" opacity=".62" stroke="rgba(216,184,110,.14)" stroke-width="1"/>
+    <!-- 近山：玄青压阵 -->
+    <path d="M0,340 C140,302 250,272 390,298 C530,324 610,262 770,284 C930,306 1010,254 1170,280 C1290,299 1355,274 1440,288 L1440,340 L0,340 Z"
+      fill="#0d1519" opacity=".95" stroke="rgba(216,184,110,.10)" stroke-width="1"/>
   </svg>
   <div class="hero-inner">
     <div class="hero-eyebrow">东江源头 · 高山自涌 · 心学之泉</div>
-    <h1 class="hero-title">证道天泉</h1>
+    <h1 class="hero-title hero-title-img"><img src="brand-calligraphy-h.png" alt="证道天泉"></h1>
     <div class="hero-verse">无善无恶心之体 &nbsp;·&nbsp; 有源有活水自来</div>
     <div class="hero-line"></div>
     <p class="hero-desc">
@@ -320,19 +463,33 @@
       <a class="btn btn-ghost" href="#story">品读品牌故事</a>
     </div>
   </div>
+  <div class="wave-wrap" aria-hidden="true">
+    <svg class="wave-svg" viewBox="0 0 1000 28" preserveAspectRatio="none">
+      <path d="M0 16 Q 50 4, 100 16 T 200 16 T 300 16 T 400 16 T 500 16 T 600 16 T 700 16 T 800 16 T 900 16 T 1000 16"
+        stroke="rgba(216,184,110,0.35)" stroke-width="1.2" fill="none"/>
+      <path d="M0 20 Q 60 10, 120 20 T 240 20 T 360 20 T 480 20 T 600 20 T 720 20 T 840 20 T 960 20 T 1080 20"
+        stroke="rgba(120,168,176,0.22)" stroke-width="1" fill="none"/>
+    </svg>
+  </div>
 </header>
 
 <!-- ========== 第一部分：水源地 ========== -->
 <section id="source">
   <div class="section-head">
-    <div class="section-tag">第一部分</div>
+    <div class="section-tag">东江之源</div>
     <h2>水源地 · 东江源</h2>
     <p class="section-sub">一江清水供香江，源头活水出寻乌</p>
   </div>
 
   <div class="source-grid">
     <div class="source-card" data-num="壹">
-      <div class="source-icon">🏞️</div>
+      <div class="source-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 15 L8 6.5 L11 10.5 L14 4.5 L21 15"/>
+          <path d="M3 18.5 q3 -1.8 6 0 t6 0 t6 0"/>
+          <path d="M5.5 21.5 q2.5 -1.4 5 0 t5 0 t5 0"/>
+        </svg>
+      </div>
       <h3>东江源</h3>
       <div class="card-sub">供港水源之源头</div>
       <p>
@@ -344,7 +501,14 @@
     </div>
 
     <div class="source-card" data-num="贰">
-      <div class="source-icon">⛩️</div>
+      <div class="source-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 16.5 Q12 7 20 16.5"/>
+          <path d="M6.5 16.5 V20 M12 14.5 V20 M17.5 16.5 V20"/>
+          <path d="M3.5 20 h17"/>
+          <path d="M8 10.5 Q12 6 16 10.5" opacity=".55"/>
+        </svg>
+      </div>
       <h3>寻乌</h3>
       <div class="card-sub">阳明故道 · 人文圣地</div>
       <p>
@@ -356,7 +520,12 @@
     </div>
 
     <div class="source-card" data-num="叁">
-      <div class="source-icon">💧</div>
+      <div class="source-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3 C12 3 5.8 10.2 5.8 14.6 a6.2 6.2 0 0 0 12.4 0 C18.2 10.2 12 3 12 3 Z"/>
+          <path d="M9.5 14.5 a2.6 2.6 0 0 0 2.5 2.8" opacity=".6"/>
+        </svg>
+      </div>
       <h3>项山泉</h3>
       <div class="card-sub">制造商 · 高山无人区自涌泉</div>
       <p>
@@ -378,12 +547,100 @@
       <div class="stat"><b>0</b><span>工业污染</span></div>
     </div>
   </div>
+
+  <div class="photo-strip">
+    <figure>
+      <img src="img-mountain.jpg" alt="项山甑主峰花岗岩巨石">
+      <figcaption><b>项山甑</b>寻乌最高峰 1529.8 米 · 山顶巨石嶙峋，一脚踏三省</figcaption>
+    </figure>
+    <figure>
+      <img src="img-waterfall.jpg" alt="东江源瀑布（航拍）">
+      <figcaption><b>东江源瀑布</b>东江的第一滴水，从这里出发</figcaption>
+    </figure>
+    <figure>
+      <img src="img-stream.jpg" alt="东江源头溪水潺潺">
+      <figcaption><b>源头溪水</b>滴水成涓，溪水潺潺，汇聚成江</figcaption>
+    </figure>
+  </div>
+  <div class="photo-note">摄影：平远文旅 · 江西日报 · 深圳特区报（仅作水源地展示）</div>
+</section>
+
+<!-- ========== 阳明故道 · 招安叶芳 ========== -->
+<section id="legend">
+  <div class="section-head">
+    <div class="section-tag">阳明故道</div>
+    <h2>天泉招安 · 以文化人</h2>
+    <p class="section-sub">正德年间，王阳明巡抚南赣，在寻乌山水间写下「破心中贼」的千古一叹</p>
+  </div>
+
+  <div class="legend-wrap">
+    <div class="legend-img">
+      <img src="img-yangming.png" alt="王阳明招安叶芳 · 水墨画">
+      <div class="img-cap">《天泉招安图》 · 王阳明端坐石案，叶芳俯首献刀（AI 绘制）</div>
+    </div>
+    <div class="legend-text">
+      <h3>收复的不只是山头，更是人心</h3>
+      <p>
+        明正德年间，赣闽粤交界的群山之间匪患连年。王阳明巡抚南赣，
+        剿抚并用、恩威兼施。盘踞一方的<b>叶芳</b>，经先生招抚归顺，
+        从此改邪归正、随军效力，龙川、和平诸地自此安定。
+      </p>
+      <p>
+        先生平乱之后兴教化、立社学，一方山水由刀兵入礼乐。
+        寻乌的青山碧水之间，至今流传着这段「以文化人」的往事。
+      </p>
+      <div class="legend-quote">
+        「破山中贼易，破心中贼难。」<br>
+        —— 王阳明 · 南赣巡抚时语
+      </div>
+      <p>
+        五百年后，证道天泉取这片山水之泉，正是向这段历史致敬：
+        以一杯清水，润身亦润心。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 寻乌调查 ========== -->
+<section id="investigation">
+  <div class="section-head">
+    <div class="section-tag">寻乌调查</div>
+    <h2>没有调查，没有发言权</h2>
+    <p class="section-sub">1930 年，毛泽东在寻乌县城写下实事求是的第一课</p>
+  </div>
+
+  <div class="diaocha-wrap">
+    <div class="diaocha-text">
+      <h3>一座县城，二十余天，八万字</h3>
+      <p>
+        1930 年 5 月，毛泽东率红四军来到寻乌。他没有像过客一样匆匆走过，
+        而是在县城里扎下来，召集商人、农民、手工业者、店员<b>连续开了十几天的调查会</b>——
+        城里有多少家盐店、多少亩田地、佃户交几成租，一桩桩、一件件，问得仔仔细细。
+      </p>
+      <p>
+        这次调查写成了八万余字的《寻乌调查》，也催生出那篇著名的《反对本本主义》。
+        求真、求实、不闭门造车——这片山水教给中国革命的功课，至今掷地有声。
+      </p>
+      <div class="diaocha-quote">
+        「没有调查，没有发言权。」
+        <small>—— 毛泽东《反对本本主义》 · 1930 年 5 月于寻乌</small>
+      </div>
+      <p>
+        一汪清泉也讲「调查」。证道天泉把水源地、水质、批次检测都摊在阳光下——
+        <b>水源说得清、水质看得见、承诺做得到</b>，这正是我们从这片土地上继承的求实之心。
+      </p>
+    </div>
+    <div class="diaocha-img">
+      <img src="img-diaocha.png" alt="寻乌调查 · 毛泽东与寻乌百姓座谈（国画）">
+      <div class="img-cap">《寻乌调查图》 · 八仙桌旁的十几天调查会（AI 绘制）</div>
+    </div>
+  </div>
 </section>
 
 <!-- ========== 第二部分：品牌故事 ========== -->
 <section id="story">
   <div class="section-head">
-    <div class="section-tag">第二部分</div>
+    <div class="section-tag">品牌故事</div>
     <h2>品牌故事 · 天泉证道</h2>
     <p class="section-sub">商标之名，取自阳明先生晚年「天泉证道」之典故</p>
   </div>
@@ -429,10 +686,47 @@
   </div>
 </section>
 
-<!-- ========== 第三部分：小证客服 ========== -->
+<!-- ========== 第三部分：商品展示 ========== -->
+<section id="product">
+  <div class="section-head">
+    <div class="section-tag">天泉臻品</div>
+    <h2>这瓶水 · 证道天泉</h2>
+    <p class="section-sub">东江源高山自涌泉 · 350ml 饮用天然泉水</p>
+  </div>
+
+  <div class="product-wrap">
+    <div class="product-photo">
+      <img src="product-bottle.jpg" alt="证道天泉 350ml 饮用天然泉水">
+    </div>
+    <div class="product-info">
+      <h3>证道天泉<sup class="tm">®</sup> · 饮用天然泉水</h3>
+      <div class="p-sub">净含量 350ml · DAO VERIFIED AT TIANQUAN</div>
+      <p>
+        取自东江发源地——江西寻乌海拔 1500 余米高山无人区的天然自涌泉。
+        泉水历经深层岩层矿化过滤，自地下岩缝自然涌出，全程无人为干预。
+      </p>
+      <p>
+        瓶身竖排「证道天泉」四字，取自阳明先生天泉证道之典故；
+        清冽回甘，软硬适中，日常饮用、待客泡茶两相宜。
+      </p>
+      <div class="spec-grid">
+        <div class="spec"><b>350ml</b><span>净含量</span></div>
+        <div class="spec"><b>1500+米</b><span>水源海拔</span></div>
+        <div class="spec"><b>天然自涌</b><span>取水方式</span></div>
+        <div class="spec"><b>批次检测</b><span>品质保障</span></div>
+      </div>
+      <div class="product-actions">
+        <a class="btn btn-primary" href="#chat">咨询订购</a>
+        <a class="btn btn-ghost" href="#legend">品读天泉招安</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 第四部分：小证客服 ========== -->
 <section id="chat">
   <div class="section-head">
-    <div class="section-tag">第三部分</div>
+    <div class="section-tag">智能客服</div>
     <h2>问小证 · 知心客服</h2>
     <p class="section-sub">健康用水 · 品牌故事 · 公益读书分享会，有问必答</p>
   </div>
@@ -467,8 +761,8 @@
   <div class="foot-grid">
     <div>
       <img class="foot-logo" src="logo_gold.png" alt="证道天泉">
-      <div class="foot-brand">证道天泉</div>
-      <p style="margin-top:14px">东江源 · 高山自涌泉<br>以泉证道，以水润心。</p>
+      <div class="foot-brand">证道天泉<sup class="tm">®</sup></div>
+      <p style="margin-top:14px">Dao Verified at Tianquan<br>东江源 · 高山自涌泉 · 以泉证道，以水润心。</p>
     </div>
     <div>
       <h4>水源地</h4>
@@ -496,12 +790,12 @@
     </div>
   </div>
   <div class="foot-line">
-    <span>© 2026 证道天泉 · 项山泉出品</span>
+    <span>© 2026 证道天泉 · 项山泉出品　|　「证道天泉」为注册商标（®）</span>
     <span>无善无恶心之体 · 有善有恶意之动 · 知善知恶是良知 · 为善去恶是格物</span>
   </div>
 </footer>
 
-<button id="floatChat" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">💬 问小证</button>
+<button id="floatChat" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;vertical-align:-3px;margin-right:6px"><path d="M21 11.5 a8.5 8.5 0 0 1 -12.4 7.5 L3 21 l2 -5.6 A8.5 8.5 0 1 1 21 11.5 Z"/></svg>问小证</button>
 <button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script src="config.js"></script>
@@ -514,6 +808,79 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
   toTop.classList.toggle('show', window.scrollY > 600);
 });
+
+/* ================= 水波涟漪（Hero canvas） ================= */
+(function(){
+  const cv = document.getElementById('waterFx');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  let w = 0, h = 0;
+  const drops = [], ripples = [];
+  const GOLD = '216,184,110';
+
+  function resize(){
+    const r = cv.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = r.width; h = r.height;
+    cv.width = w * dpr; cv.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function addRipple(x, y, big){
+    ripples.push({x, y, r: 2, max: big ? 130 + Math.random() * 70 : 60 + Math.random() * 50, a: 0.4});
+    if (ripples.length > 26) ripples.splice(0, ripples.length - 26);
+  }
+  function addDrop(){
+    drops.push({x: Math.random() * w, y: -10, vy: 0, ty: h * (0.25 + Math.random() * 0.6)});
+  }
+
+  // 每隔 2.2s：70% 落一滴水，30% 直接起一圈涟漪
+  setInterval(() => {
+    if (document.hidden) return;
+    Math.random() < 0.7 ? addDrop() : addRipple(Math.random() * w, Math.random() * h);
+  }, 2200);
+
+  // 鼠标划过：掀起大涟漪（320ms 节流）
+  let lastMove = 0;
+  cv.parentElement.addEventListener('pointermove', e => {
+    const now = performance.now();
+    if (now - lastMove < 320) return;
+    lastMove = now;
+    const r = cv.getBoundingClientRect();
+    addRipple(e.clientX - r.left, e.clientY - r.top, true);
+  });
+
+  (function loop(){
+    ctx.clearRect(0, 0, w, h);
+    // 下落的水滴
+    for (let i = drops.length - 1; i >= 0; i--){
+      const d = drops[i];
+      d.vy += 0.25; d.y += d.vy;
+      if (d.y >= d.ty){ addRipple(d.x, d.ty); drops.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.ellipse(d.x, d.y, 1.1, 2.6, 0, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${GOLD},0.55)`;
+      ctx.fill();
+    }
+    // 扩散的涟漪
+    for (let i = ripples.length - 1; i >= 0; i--){
+      const p = ripples[i];
+      p.r += (p.max - p.r) * 0.028;
+      p.a *= 0.985;
+      if (p.a <= 0.01){ ripples.splice(i, 1); continue; }
+      for (const off of [0, 0.45]){
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, Math.max(p.r * (1 - off) + off * 18, 0.5), 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${GOLD},${p.a * (off ? 0.45 : 1)})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+    requestAnimationFrame(loop);
+  })();
+})();
 
 /* ================= 小证客服 ================= */
 const chatLog = document.getElementById('chatLog');
